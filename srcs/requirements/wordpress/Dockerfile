@@ -14,4 +14,10 @@ RUN tar -xvf /var/www/html/latest.tar.gz -C /var/www/html
 
 RUN chown -R www-data:www-data /var/www/html/wordpress
 
+COPY conf/wp-config-sample.php /var/www/html/wordpress/wp-config-sample.php
+
+COPY conf/php.ini /etc/php/7.3/fpm/php.ini
+
+RUN mkdir /run/php
+
 
