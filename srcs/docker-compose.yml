@@ -32,6 +32,7 @@ services :
       - wordpress:/var/www/html
     networks : 
       - inception
+    env_file : .env
     build : 
       context : requirements/wordpress
       dockerfile : Dockerfile
@@ -56,4 +57,5 @@ volumes :
 
 networks : 
   inception :
+    name : inception
     driver : bridge

@@ -8,6 +8,8 @@ up :
 
 down :
 	docker-compose -f srcs/docker-compose.yml down
+	docker system prune -f -a --volumes
+	sudo rm -rf $(HOME)/data
 
 stop : 
 	docker-compose -f srcs/docker-compose.yml stop
