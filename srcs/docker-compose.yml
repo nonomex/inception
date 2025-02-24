@@ -1,61 +1,62 @@
-services :
+services:
 
-  mariadb :
-    container_name : mariadb
-    networks : 
+  mariadb:
+    container_name: mariadb
+    networks:
       - inception
-    build : 
-      context : requirements/mariadb
-      dockerfile : Dockerfile
-    env_file : .env
-    volumes :
+    build:
+      context: requirements/mariadb
+      dockerfile: Dockerfile
+    env_file: .env
+    volumes:
       - mariadb:/var/lib/mysql
-    restart : unless-stopped
+    restart: always
 
   nginx:
-    container_name : nginx
-    volumes : 
+    container_name: nginx
+    volumes: 
       - wordpress:/var/www/html
-    networks : 
+    networks: 
       - inception
-    build :
-      context : requirements/nginx
-      dockerfile : Dockerfile
-    env_file : .env
-    ports : 
+    build:
+      context: requirements/nginx
+      dockerfile: Dockerfile
+    env_file: .env
+    ports: 
       - "443:443"
-    restart : on-failure
+    restart: always
+    depends_on:
+      - wordpress
 
-  wordpress : 
-    container_name : wordpress
-    volumes : 
+  wordpress: 
+    container_name: wordpress
+    volumes: 
       - wordpress:/var/www/html
-    networks : 
+    networks: 
       - inception
-    env_file : .env
-    build : 
-      context : requirements/wordpress
-      dockerfile : Dockerfile
-    depends_on :
+    env_file: .env
+    build:
+      context: requirements/wordpress
+      dockerfile: Dockerfile
+    depends_on:
       - mariadb
-      - nginx
-    restart : on-failure
+    restart: always
 
-volumes :
-  wordpress :
-    driver : local
-    driver_opts :
-      type : 'none'
-      o: 'bind'
-      device : '/home/aammirat/data/wordpress'    
-  mariadb : 
-    driver : local
-    driver_opts : 
+volumes:
+  wordpress:
+    driver: local
+    driver_opts:
       type: 'none'
       o: 'bind'
-      device : '/home/aammirat/data/mariadb'
+      device: '/home/aammirat/data/wordpress'    
+  mariadb: 
+    driver: local
+    driver_opts: 
+      type: 'none'
+      o: 'bind'
+      device: '/home/aammirat/data/mariadb'
 
-networks : 
-  inception :
-    name : inception
-    driver : bridge
+networks: 
+  inception:
+    name: inception
+    driver: bridge

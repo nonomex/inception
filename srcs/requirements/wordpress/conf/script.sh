@@ -14,11 +14,17 @@ chmod +x wp-cli.phar
 
 mv wp-cli.phar /usr/local/bin/wp
 
-cp /wp-config.php /var/www/html/wordpress/wp-config.php
+chown -R www-data:www-data /var/www/html
+
+chmod -R 755 /var/www/html
+
+rm /var/www/html/wordpress/wp-config.php
+
+wp config create --dbname="mysql" --dbuser="aammirat" --dbpass="passwourd" --dbhost="mariadb:3306" --allow-root --path=/var/www/html/wordpress
 
 echo install
 
-wp core install --url=aammirat.42.fr --title=inception --admin_user=aammirat --admin_password=passwourd --admin_email=thecreator@donthaveemail.com --allow-root --path=/var/www/html/wordpress
+wp core install --url="aammirat.42.fr" --title="inception" --admin_user="aammirat" --admin_password="passwourd" --admin_email="thecreator@donthaveemail.com" --allow-root --path=/var/www/html/wordpress
 
 echo heyogf
 
