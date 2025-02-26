@@ -1,10 +1,14 @@
 FROM debian:buster
 
-RUN apt update && apt upgrade -y  && apt install wget -y && apt-get install apache2 -y
+RUN apt update && apt upgrade -y  && apt install wget -y
 
-RUN apt install php php-cli php-mbstring php-xml sendmail php-curl php-zip php-gd php7.3-fpm php-mysqli -y
+RUN apt-get install mariadb-client -y
 
-COPY conf/php.ini /etc/php/7.3/fpm/php.ini
+RUN apt install php7.3 php-cli php-xml php-curl php-zip php-gd php7.3-fpm php-mysql -y
+
+COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+
+RUN chmod +x /etc/php/7.3/fpm/pool.d/www.conf
 
 RUN mkdir /run/php
 
