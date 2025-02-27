@@ -24,7 +24,13 @@ mv /wp-config.php /var/www/html/wordpress/wp-config.php
 
 echo install
 
-wp core install --url="https://aammirat.42.fr" --title="inception" --admin_user="aammirat" --admin_password="passwourd" --admin_email="thecreator@donthaveemail.com" --allow-root --path=/var/www/html/wordpress
+[ -z "$USER_NAME" ] && echo "Error: USER_NAME is not set." && exit 1
+[ -z "$USER_MAIL" ] && echo "Error: USER_MAIL is not set." && exit 1
+[ -z "$SQL_USER" ] && echo "Error: SQL_USER is not set." && exit 1
+[ -z "$ADMIN_PASSWORD" ] && echo "Error: ADMIN_PASSWORD is not set." && exit 1
+[ -z "$USER_PASSWORD" ] && echo "Error: USER_PASSWORD is not set." && exit 1
+
+wp core install --url="https://aammirat.42.fr" --title="inception" --admin_user=${SQL_USER} --admin_password=${ADMIN_PASSWORD} --admin_email="thecreator@donthaveemail.com" --allow-root --path=/var/www/html/wordpress
 
 echo heyogf
 
